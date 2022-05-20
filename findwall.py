@@ -158,7 +158,7 @@ def main():
     parser.add_argument('--ssh-port', default=22, type=int, dest='ssh_port', help='Remote SSH port')
     parser.add_argument('--ssh-username', required=True, dest='ssh_username', help='Remote SSH username')
     parser.add_argument('--ssh-password', default="", dest='ssh_password', help='Remote SSH password')
-    parser.add_argument('--ssh-key', default="", dest='ssh_key', help='Private SSH key')
+    parser.add_argument('--ssh-key', default="", dest='ssh_key', help='SSH Private key')
     parser.add_argument('--ports', required=True, default="1-1024", dest='ports', help='Port range to scan (default: 1-1024)')
     parser.add_argument('--udp', dest='udp', action='store_true', help='Scan in UDP')
     parser.add_argument('--threads', dest='threads', type=int, default=5, help='Number of threads')

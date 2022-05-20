@@ -17,28 +17,28 @@ def show_blocked_ports(udp):
 
 
 def open_remote_port(session, port_to_scan, udp):
-    command = "nc -lvp " + str(port_to_scan)
+    command = "echo test | nc -nlp " + str(port_to_scan)
     if udp:
         command = command + " -u"
     command = command + " > /dev/null 2>&1 &"
     stdin, stdout, stderr = session.exec_command(command)
-    time.sleep(3)
+    time.sleep(2)
 
 
 def check_remote_port(session, ssh_host, port_to_scan, udp):
     try:
         if udp:
             s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-            s.settimeout(1)
+            s.settimeout(2)
             s.sendto(bytes("test", "utf-8"), (ssh_host, port_to_scan))
             data, addr = s.recvfrom(1024)
         else: 
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.settimeout(1)
+            s.settimeout(2)
             s.connect((ssh_host, port_to_scan))
     except Exception as err:
         BLOCKED_PORTS.append(port_to_scan)
-        print(err)
+        # print(err)
     finally:
         s.close()
         stdin, stdout, stderr = session.exec_command("kill -9 $(lsof -t -i:" + str(port_to_scan) +")")

@@ -41,7 +41,7 @@ optional arguments:
                         Remote SSH username
   --ssh-password SSH_PASSWORD
                         Remote SSH password
-  --ssh-key SSH_KEY     Private SSH key
+  --ssh-key SSH_KEY     SSH Private key
   --ports PORTS         Port range to scan (default: 1-1024)
   --udp                 Scan in UDP
   --threads THREADS     Number of threads

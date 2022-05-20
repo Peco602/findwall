@@ -16,7 +16,7 @@ jobs:
       run: sudo pip install -r requirements.txt
       
     - name: Target Creation
-      run: sudo docker run --cap-add=NET_ADMIN --expose=8000 --name findwall_target -d ghcr.io/s1ntaxe770r/image:latest
+      run: sudo docker run --cap-add=NET_ADMIN --expose=7000-8000 --name findwall_target -d ghcr.io/s1ntaxe770r/image:latest
 
     - name: check ports
       run: sudo docker inspect findwall_target

@@ -24,7 +24,7 @@ jobs:
     - name: Target Configuration (#2)
       run: sudo docker exec -t findwall_target iptables -A INPUT -p tcp --destination-port 8002 -j DROP
 
-    - name: TCP Scanning
+    - name: UDP Scanning
       run: python findwall.py --ssh-host $(docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' findwall_target) --ssh-port 22 --ssh-username test --ssh-password test --ports 8000-8010 --threads 3
 
     - name: Clean-up

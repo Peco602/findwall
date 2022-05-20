@@ -17,7 +17,7 @@ def show_blocked_ports(udp):
 
 
 def open_remote_port(session, port_to_scan, udp):
-    command = "echo test | nc -lvp " + str(port_to_scan)
+    command = "nc -lvp " + str(port_to_scan)
     if udp:
         command = command + " -u"
     command = command + " > /dev/null 2>&1 &"

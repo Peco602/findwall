@@ -16,7 +16,7 @@ jobs:
       run: sudo pip install -r requirements.txt
       
     - name: Target Creation
-      run: sudo docker run --cap-add=NET_ADMIN --name findwall_target -d ghcr.io/s1ntaxe770r/image:latest
+      run: sudo docker run --cap-add=NET_ADMIN --publish-all --name findwall_target -d ghcr.io/s1ntaxe770r/image:latest
 
     - name: Target Configuration
       run: sudo docker exec -t findwall_target apt install -y netcat iptables && sudo docker exec -t findwall_target iptables -A INPUT -p udp --destination-port 8002 -j DROP

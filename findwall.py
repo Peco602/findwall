@@ -63,8 +63,8 @@ def open_session(ssh_host, ssh_port, ssh_username, ssh_password, ssh_key):
 
 
 def check_blocked_port(ssh_host, ssh_port, ssh_username, ssh_password, ssh_key, port_to_scan, udp):
-    # if ssh_port == port_to_scan:
-    #     return
+    if ssh_port == port_to_scan:
+        return
     session = open_session(ssh_host, ssh_port, ssh_username, ssh_password, ssh_key)
     open_remote_port(session, port_to_scan, udp)
     check_remote_port(session, ssh_host, port_to_scan, udp)
@@ -153,7 +153,7 @@ def main():
     print_banner()
 
     # Command-line parameters
-    parser = argparse.ArgumentParser(description ='Check if your Internet provider is blocking you!')
+    parser = argparse.ArgumentParser(description ='Check if someone is blocking you!')
     parser.add_argument('--ssh-host', required=True, dest='ssh_host', help='Remote host')
     parser.add_argument('--ssh-port', default=22, type=int, dest='ssh_port', help='Remote SSH port')
     parser.add_argument('--ssh-username', required=True, dest='ssh_username', help='Remote SSH username')
@@ -174,7 +174,7 @@ def main():
     threads = args.threads
 
     if not ssh_password and not ssh_key:
-        error("Specify a password or a key file")
+        error("Specify a password or a key file for the remote SSH host")
         exit(1)
 
     # Port range parsing

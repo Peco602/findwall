@@ -21,6 +21,9 @@ jobs:
     - name: Target Configuration (#1)
       run: sudo docker exec -t findwall_target apt install -y netcat iptables
       
+    - name: check ip
+      run: sudo docker inspect -f '{{range.NetworkSettings.Networks}}{{.IPAddress}}{{end}}' findwall_target
+      
     - name: Target Configuration (#2)
       run: sudo docker exec -t findwall_target iptables -A INPUT -p tcp --destination-port 8001 -j DROP
 

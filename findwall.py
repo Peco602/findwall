@@ -38,7 +38,7 @@ def check_remote_port(session, ssh_host, port_to_scan, udp):
             s.connect((ssh_host, port_to_scan))
     except Exception as err:
         BLOCKED_PORTS.append(port_to_scan)
-        # print(err)
+        print(err)
     finally:
         s.close()
         stdin, stdout, stderr = session.exec_command("kill -9 $(lsof -t -i:" + str(port_to_scan) +")")

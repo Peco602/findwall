@@ -22,7 +22,7 @@ def open_remote_port(session, port_to_scan, udp):
         command = command + " -u"
     command = command + " > /dev/null 2>&1 &"
     stdin, stdout, stderr = session.exec_command(command)
-    time.sleep(2)
+    time.sleep(3)
 
 
 def check_remote_port(session, ssh_host, port_to_scan, udp):
@@ -34,7 +34,7 @@ def check_remote_port(session, ssh_host, port_to_scan, udp):
             data, addr = s.recvfrom(1024)
         else: 
             s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            s.settimeout(5)
+            s.settimeout(1)
             s.connect((ssh_host, port_to_scan))
     except Exception as err:
         BLOCKED_PORTS.append(port_to_scan)

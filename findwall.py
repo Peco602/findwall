@@ -63,8 +63,8 @@ def open_session(ssh_host, ssh_port, ssh_username, ssh_password, ssh_key):
 
 
 def check_blocked_port(ssh_host, ssh_port, ssh_username, ssh_password, ssh_key, port_to_scan, udp):
-    if ssh_port == port_to_scan:
-        return
+    # if ssh_port == port_to_scan:
+    #     return
     session = open_session(ssh_host, ssh_port, ssh_username, ssh_password, ssh_key)
     open_remote_port(session, port_to_scan, udp)
     check_remote_port(session, ssh_host, port_to_scan, udp)

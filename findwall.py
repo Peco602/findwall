@@ -10,9 +10,9 @@ BLOCKED_PORTS = []
 
 def show_blocked_ports(udp):
     if udp:
-        message = "Blocked UDP ports: " + str(BLOCKED_PORTS)
+        message = "Blocked UDP ports: " + str(sorted(BLOCKED_PORTS))
     else:
-        message = "Blocked TCP ports: " + str(BLOCKED_PORTS)
+        message = "Blocked TCP ports: " + str(sorted(BLOCKED_PORTS))
     error(message)
 
 

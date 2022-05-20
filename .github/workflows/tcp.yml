@@ -16,7 +16,7 @@ jobs:
       run: sudo pip install -r requirements.txt
       
     - name: Target Creation
-      run: sudo docker run --cap-add=NET_ADMIN --expose=22,8000-8010 --name findwall_target -d ghcr.io/s1ntaxe770r/image:latest
+      run: sudo docker run --cap-add=NET_ADMIN --expose=1-10000 --name findwall_target -d ghcr.io/s1ntaxe770r/image:latest
 
     - name: Target Configuration (#1)
       run: sudo docker exec -t findwall_target apt install -y netcat iptables

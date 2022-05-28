@@ -9,6 +9,7 @@ source venv/bin/activate
 pip install -r requirements.txt
 
 echo "[!] Creating target"
+docker rm findwall_target --force
 docker run --cap-add=NET_ADMIN --name findwall_target --publish-all -d ghcr.io/s1ntaxe770r/image:latest
 docker exec -t findwall_target apt install -y netcat iptables
 

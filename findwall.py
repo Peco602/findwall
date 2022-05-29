@@ -1,10 +1,16 @@
 import argparse
+import getpass
 from colorama import Fore, Back, Style
 from tqdm import tqdm
 import threading
 import paramiko
 import time
 import socket
+
+MAX_THREADS = 5
+TCP_TIMEOUT = 60
+BANNER_TIMEOUT = 60
+AUTH_TIMEOUT = 60
 
 BLOCKED_PORTS = []
 
@@ -53,9 +59,9 @@ def open_session(ssh_host, ssh_port, ssh_username, ssh_password, ssh_key):
     session.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     try:
         if ssh_key:
-            session.connect(ssh_host, port=ssh_port, username=ssh_username, password=ssh_password, key_filename=ssh_key)
+            session.connect(ssh_host, port=ssh_port, username=ssh_username, password=ssh_password, key_filename=ssh_key, timeout=TCP_TIMEOUT, banner_timeout=BANNER_TIMEOUT, auth_timeout=AUTH_TIMEOUT)
         else:
-            session.connect(ssh_host, port=ssh_port, username=ssh_username, password=ssh_password)
+            session.connect(ssh_host, port=ssh_port, username=ssh_username, password=ssh_password, timeout=TCP_TIMEOUT, banner_timeout=BANNER_TIMEOUT, auth_timeout=AUTH_TIMEOUT)
     except Exception as err:
         error(str(err))
         exit(1)
@@ -158,24 +164,33 @@ def main():
     parser.add_argument('--ssh-port', default=22, type=int, dest='ssh_port', help='Remote SSH port')
     parser.add_argument('--ssh-username', required=True, dest='ssh_username', help='Remote SSH username')
     parser.add_argument('--ssh-password', default="", dest='ssh_password', help='Remote SSH password')
-    parser.add_argument('--ssh-key', default="", dest='ssh_key', help='SSH Private key')
+    parser.add_argument('--ask-ssh-pass', dest='ask_ssh_pass', action='store_true', help='Ask for remote SSH password')
+    parser.add_argument('--ssh-key', default="", dest='ssh_key', help='Remote SSH private key')
     parser.add_argument('--ports', required=True, default="1-1024", dest='ports', help='Port range to scan (default: 1-1024)')
     parser.add_argument('--udp', dest='udp', action='store_true', help='Scan in UDP')
-    parser.add_argument('--threads', dest='threads', type=int, default=5, help='Number of threads')
+    parser.add_argument('--threads', dest='threads', type=int, default=1, help='Number of threads (default: 1)')
     args = parser.parse_args()
 
     ssh_host = args.ssh_host
     ssh_port = args.ssh_port
     ssh_username = args.ssh_username
     ssh_password = args.ssh_password
+    ask_ssh_pass = args.ask_ssh_pass
     ssh_key = args.ssh_key
     ports = args.ports
     udp = args.udp
     threads = args.threads
 
-    if not ssh_password and not ssh_key:
+    if threads > MAX_THREADS:
+        error("The max number of threads is " + MAX_THREADS)
+        exit(1)
+
+    if not ask_ssh_pass and not ssh_password and not ssh_key:
         error("Specify a password or a key file for the remote SSH host")
         exit(1)
+        
+    if ask_ssh_pass:
+        ssh_password = getpass.getpass(prompt = 'Enter the SSH password')
 
     # Port range parsing
     ports = parse_port_range(args.ports)

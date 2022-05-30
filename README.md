@@ -29,7 +29,8 @@ $ python findwall.py --help
 
 =====================================================================================
 
-usage: findwall.py [-h] --ssh-host SSH_HOST [--ssh-port SSH_PORT] --ssh-username SSH_USERNAME [--ssh-password SSH_PASSWORD] [--ssh-key SSH_KEY] --ports PORTS [--udp] [--threads THREADS]
+usage: findwall.py [-h] --ssh-host SSH_HOST [--ssh-port SSH_PORT] --ssh-username SSH_USERNAME [--ssh-password SSH_PASSWORD] [--ask-ssh-pass] [--ssh-key SSH_KEY] --ports PORTS [--udp]
+                   [--threads THREADS]
 
 Check if someone is blocking you!
 
@@ -41,10 +42,11 @@ optional arguments:
                         Remote SSH username
   --ssh-password SSH_PASSWORD
                         Remote SSH password
-  --ssh-key SSH_KEY     SSH Private key
+  --ask-ssh-pass        Ask for remote SSH password
+  --ssh-key SSH_KEY     Remote SSH private key
   --ports PORTS         Port range to scan (default: 1-1024)
   --udp                 Scan in UDP
-  --threads THREADS     Number of threads
+  --threads THREADS     Number of threads (default: 1)
 ```
 
 As an example:
